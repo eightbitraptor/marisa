@@ -3,16 +3,20 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
 
-Rake::TestTask.new(:test) do |t|
-  t.libs << "test"
-  t.libs << "lib"
-  t.test_files = FileList["test/marisa/**/test_*.rb"]
+namespace :test do
+  Rake::TestTask.new(:unit) do |t|
+    t.libs << "test"
+    t.libs << "lib"
+    t.test_files = FileList["test/marisa/**/test_*.rb"]
+  end
+
+  Rake::TestTask.new(:system) do |t|
+    t.libs << "test"
+    t.libs << "lib"
+    t.test_files = FileList["test/system/test_*.rb"]
+  end
+
+  task :all => [:unit, :system]
 end
 
-Rake::TestTask.new(:test_system) do |t|
-  t.libs << "test"
-  t.libs << "lib"
-  t.test_files = FileList["test/system/test_*.rb"]
-end
-
-task default: %i[test]
+task default: %i[test:all]
