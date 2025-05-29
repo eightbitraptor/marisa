@@ -1,42 +1,43 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "open3"
 require "json"
 
 module SystemTestHelper
   def setup
-    start_process
+    start_server
     super
   end
 
   def teardown
-    stop_process
+    stop_server
     super
   end
 
   private
 
-  def start_process
-    executable = File.expand_path("../../bin/marisa", __dir__)
-    @stdin, @stdout, @stderr, @wait_thr = Open3.popen3(executable)
+  def start_server
+    @server = MCP::Server.new(
+      name: "marisa", 
+      server_context: {},
+      tools: [
+        Marisa::Tools::Personality,
+        Marisa::Tools::ReadMemories,
+        Marisa::Tools::WriteMemories
+      ]
+    )
   end
 
-  def stop_process
-    @stdin&.close
-    @stdout&.close
-    @stderr&.close
-    @wait_thr&.value # Wait for the process to finish
+  def stop_server
+    @server = nil
   end
 
   def send_command(command)
-    @stdin.puts(command.to_json)
-    @stdin.flush
-
-    response = @stdout.gets
-    JSON.parse(response)
+    json_request = command.to_json
+    json_response = @server.handle_json(json_request)
+    JSON.parse(json_response)
   rescue JSON::ParserError
     # If we got a non-JSON response, return it as-is
-    { "error" => response }
+    { "error" => json_response }
   end
 end 
