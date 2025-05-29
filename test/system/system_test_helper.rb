@@ -6,8 +6,8 @@ require "json"
 
 module SystemTestHelper
   def setup
-    super
     start_process
+    super
   end
 
   def teardown

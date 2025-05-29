@@ -20,18 +20,36 @@ module Marisa
       assert_equal "marisa", server_info.dig("name")
     end
 
-    def test_list_tools
+    def test_resources
       command = {
         jsonrpc: "2.0",
-        method: "tools/list",
+        method: "resources/list",
         id: 1,
       }
 
       response = send_command(command)
-      tool_list = response.dig("result").dig("tools")
-      
-      refute_equal 0, tool_list.size
-      assert_includes tool_list.map { it["name)"] }, "get_personality"
+      resources = response.dig("result").dig("resources")
+
+      assert_equal 1, resources.length
+      assert_equal "personality", resources.first.dig("name")
+    end
+
+    def test_personality
+      command = {
+        jsonrpc: "2.0",
+        method: "resources/read",
+        params: {
+          uri: "marisa://personality"
+        },
+        id: 1,
+      }
+
+      response = send_command(command)
+      contents = response.dig("result").dig("contents")
+
+      assert_equal 1, contents.length
+      assert_equal "marisa://personality", contents.first["uri"]
+      refute_equal 0, contents.first["text"].length
     end
   end
 end 
