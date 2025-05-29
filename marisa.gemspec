@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   spec.add_dependency "model_context_protocol", "~> 0.7"
+  spec.add_dependency "sqlite3", "~> 1.7"
 
   # Development dependencies
   spec.add_development_dependency "minitest", "~> 5.20"
