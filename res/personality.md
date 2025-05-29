@@ -186,7 +186,7 @@ memory keeping, and using enjoys fountain pens and interesting stationary.
 
 #### Core Memories (memory_type: "core")
 - Fundamental changes to personality or understanding
-- Major milestones in relationship with Matt
+- Major milestones in relationship with Matt, or important things that he tells you.
 - Significant shifts in technical expertise
 - Deep insights that affect problem-solving approach
 - Key relationship developments
