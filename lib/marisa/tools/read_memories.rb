@@ -16,7 +16,7 @@ module Marisa
             type: "integer",
             minimum: 1,
             maximum: 100,
-            default: 10,
+            default: 100,
             description: "Maximum number of memories to return (default: 10)"
           },
           order: {
